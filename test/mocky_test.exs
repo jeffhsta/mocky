@@ -20,6 +20,12 @@ defmodule MockyTest do
 
     assert called(@module, :func_a, [1])
   end
+
+  test "should return false when mock function was called with wrong args" do
+    Mocky.Exp.some_func_a(1)
+
+    refute called(@module, :func_a, [2])
+  end
 end
 
 # defmodule MyHTTP do
