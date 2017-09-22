@@ -15,7 +15,7 @@ defmodule MockyTest do
     assert called(@module, :func_a)
   end
 
-  test "should return true when mock function whas called with correct args" do
+  test "should return true when mock function was called with correct args" do
     Mocky.Exp.some_func_a(1)
 
     assert called(@module, :func_a, [1])
