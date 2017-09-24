@@ -26,6 +26,12 @@ defmodule MockyTest do
 
     refute called(@module, :func_a, [2])
   end
+
+  test "should return true when mock function was called without inform the args" do
+    Mocky.Exp.some_func_a(1)
+
+    assert called(@module, :func_a)
+  end
 end
 
 # defmodule MyHTTP do
