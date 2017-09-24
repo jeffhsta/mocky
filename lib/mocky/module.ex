@@ -20,7 +20,7 @@ defmodule Mocky.Module do
         module = unquote(mock_module)
         function_name = unquote(function_name)
 
-        Mocky.StateManager.update_call_counter(module, function_name, 0)
+        Mocky.StateManager.update_call_counter(module, function_name, [])
       end
     end
   end
@@ -31,7 +31,40 @@ defmodule Mocky.Module do
         module = unquote(mock_module)
         function_name = unquote(function_name)
 
-        Mocky.StateManager.update_call_counter(module, function_name, 1)
+        Mocky.StateManager.update_call_counter(module, function_name, [arg1])
+      end
+    end
+  end
+
+  def generate_macro(mock_module, {function_name, 2}) do
+    quote do
+      def unquote(:"#{function_name}")(arg1, arg2) do
+        module = unquote(mock_module)
+        function_name = unquote(function_name)
+
+        Mocky.StateManager.update_call_counter(module, function_name, [arg1, arg2])
+      end
+    end
+  end
+
+  def generate_macro(mock_module, {function_name, 3}) do
+    quote do
+      def unquote(:"#{function_name}")(arg1, arg2, arg3) do
+        module = unquote(mock_module)
+        function_name = unquote(function_name)
+
+        Mocky.StateManager.update_call_counter(module, function_name, [arg1, arg2, arg3])
+      end
+    end
+  end
+
+  def generate_macro(mock_module, {function_name, 4}) do
+    quote do
+      def unquote(:"#{function_name}")(arg1, arg2, arg3, arg4) do
+        module = unquote(mock_module)
+        function_name = unquote(function_name)
+
+        Mocky.StateManager.update_call_counter(module, function_name, [arg1, arg2, arg3, arg4])
       end
     end
   end

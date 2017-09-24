@@ -2,7 +2,10 @@ defmodule Mocky.RealModule do
   def some_func_a, do: :ok
   def some_func_a(_), do: :ok
   def an_existing_function, do: :ok
-  def an_existing_function(n), do: n
+  def an_existing_function(a), do: a
+  def an_existing_function(a, b), do: a + b
+  def an_existing_function(a, b, c), do: a + b + c
+  def an_existing_function(a, b, c, d), do: a + b + c + d
 end
 
 defmodule Mocky.FakeModule do

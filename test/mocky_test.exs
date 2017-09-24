@@ -59,6 +59,18 @@ defmodule MockyTest do
     refute Mocky.RealModule.an_existing_function(1)  |> is_nil
     Mocky.FakeModule.an_existing_function(1)
   end
+
+  test "should create function with any arguments dynamically" do
+    refute Mocky.RealModule.an_existing_function(1)  |> is_nil
+    refute Mocky.RealModule.an_existing_function(1, 2)  |> is_nil
+    refute Mocky.RealModule.an_existing_function(1, 2, 3)  |> is_nil
+    refute Mocky.RealModule.an_existing_function(1, 2, 3, 4)  |> is_nil
+
+    Mocky.FakeModule.an_existing_function(1)
+    Mocky.FakeModule.an_existing_function(1, 2)
+    Mocky.FakeModule.an_existing_function(1, 2, 3)
+    Mocky.FakeModule.an_existing_function(1, 2, 3, 4)
+  end
 end
 
 # defmodule MyHTTP do
