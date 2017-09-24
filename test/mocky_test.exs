@@ -33,6 +33,13 @@ defmodule MockyTest do
 
       assert called(@module, :func_a)
     end
+
+    test "should return true when mock function was called with the same args" do
+      Mocky.Exp.some_func_a(1)
+
+      assert called(@module, :func_a, [1])
+      refute called(@module, :func_a, [2])
+    end
   end
 
   describe "Test auto create functions" do
