@@ -1,29 +1,27 @@
 # TODO: make it auto create those functions based on the real module
 defmodule Mocky.Module do
-  defmacro __using__([module: module]) do
-    quote do
-      module = unquote(module)
-      module.__info__(:functions) |> IO.inspect(label: "functions to mock")
-      unquote(Mocky.Module.generate_func(__MODULE__, :negative, 1))
-    end
-    # :functions
-    # |> module.__info__()
-    # |> Enum.map(fn {name, num_args} ->
-    #   Mock.Main.generate_func(module, name, num_args)
-    # end)
+  defmacro __using__([module: original_module_quoted, from: mock_module_quoted]) do
+    mock_module = Mocky.Module.parse_quoted_module(mock_module_quoted)
+
+    original_module_quoted
+    |> Mocky.Module.parse_quoted_module()
+    |> fn module -> module.__info__(:functions) end.()
+    |> Enum.map(&generate_macro(mock_module, &1))
   end
 
-  def generate_func(module, function, num_args) do
-    IO.puts("Creating macro #{module}.#{function}/#{num_args}")
-    quote do
-      def unquote(:"#{function}/#{num_args}")() do
-        IO.puts("Calling #{unquote(module)}")
+  def parse_quoted_module(module_quoted) do
+    {_, _, module_data} = module_quoted
+    "Elixir.#{module_data |> Enum.join(".")}" |> String.to_atom
+  end
 
-        Agent.get(module, fn state ->
-          state
-          |> Map.get(unquote(:"#{function}/#{num_args}"), %{})
-          |> Map.get(:stub)
-        end)
+  def generate_macro(mock_module, {function_name, num_args}) do
+    quote do
+      def unquote(:"#{function_name}")() do
+        module = unquote(mock_module)
+        function_name = unquote(function_name)
+        num_args = unquote(num_args)
+
+        Mocky.StateManager.update_call_counter(module, function_name, num_args)
       end
     end
   end

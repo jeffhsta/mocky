@@ -5,7 +5,7 @@ defmodule Mocky.RealModule do
 end
 
 defmodule Mocky.FakeModule do
-  # use Mock.Module, module: Mock.RealModule
+  use Mocky.Module, module: Mocky.RealModule, from: Mocky.FakeModule
 
   def func_a, do:
     Mocky.StateManager.update_call_counter(__MODULE__, :func_a, [])

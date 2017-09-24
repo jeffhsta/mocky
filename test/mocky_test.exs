@@ -50,18 +50,10 @@ defmodule MockyTest do
     end
   end
 
-  # test "should create function automatically based on original module" do
-  #   defmodule Mocky.Test.OriginalModule do
-  #     def some_function, do: :ok
-  #   end
-  #
-  #   defmodule Mocky.Test.FakeModule do
-  #     use Mocky.Module, module: Mocky.Test.OriginalModule
-  #   end
-  #
-  #   assert Mocky.Test.FakeModule.some_function() ==
-  #     Mocky.Test.OriginalModule.some_function()
-  # end
+  test "should create function automatically based on original module" do
+    assert Mocky.FakeModule.an_existing_function() ==
+      Mocky.RealModule.an_existing_function()
+  end
 end
 
 # defmodule MyHTTP do
