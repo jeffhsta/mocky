@@ -34,6 +34,34 @@ defmodule MockyTest do
       assert called(@module, :func_a)
     end
   end
+
+  describe "Test auto create functions" do
+    test "should raise an error when the called function does not exists" do
+      defmodule Mocky.Test.OriginalModule do
+        def some_function, do: :ok
+      end
+
+      defmodule Mocky.Test.FakeModule do
+        # No function here
+      end
+
+      refute Mocky.Test.OriginalModule.some_function() |> is_nil
+      assert_raise UndefinedFunctionError, fn -> Mocky.Test.FakeModule.some_function() end
+    end
+  end
+
+  # test "should create function automatically based on original module" do
+  #   defmodule Mocky.Test.OriginalModule do
+  #     def some_function, do: :ok
+  #   end
+  #
+  #   defmodule Mocky.Test.FakeModule do
+  #     use Mocky.Module, module: Mocky.Test.OriginalModule
+  #   end
+  #
+  #   assert Mocky.Test.FakeModule.some_function() ==
+  #     Mocky.Test.OriginalModule.some_function()
+  # end
 end
 
 # defmodule MyHTTP do
