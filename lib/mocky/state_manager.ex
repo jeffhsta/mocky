@@ -10,4 +10,12 @@ defmodule Mocky.StateManager do
       state |> Map.put(key, function_mock)
     end)
   end
+  def call_counter(module, function, args) do
+    Agent.get(module, fn state ->
+      state
+      |> Keyword.get(function, %{})
+      |> Map.get(args, @initial_function_mock)
+      |> Map.get(:called)
+    end)
+  end
 end

@@ -1,4 +1,6 @@
 defmodule Mocky do
+  alias Mocky.StateManager
+
   @moduledoc """
   Documentation for Mock.
   """
@@ -12,7 +14,7 @@ defmodule Mocky do
   iex> setup_mock(MyMock)
   """
   def setup_mock(module), do:
-    Agent.start_link(fn -> %{} end, name: module)
+    Agent.start_link(fn -> [] end, name: module)
 
   @doc """
   Stub.
@@ -66,11 +68,7 @@ defmodule Mocky do
   true
 
   """
-  def called(module, function, args \\ []) do
-    Agent.get(module, fn state ->
-      state
-      |> Map.get(%{function: function, args: args}, %{stub: nil, called: 0})
-      |> Map.get(:called)
-    end) > 0
+  def called(module, function, args \\ :any) do
+    StateManager.call_counter(module, function, args) > 0
   end
 end
