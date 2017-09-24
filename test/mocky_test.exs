@@ -9,28 +9,30 @@ defmodule MockyTest do
     :ok
   end
 
-  test "should return true when mock function was called" do
-    Mocky.Exp.some_func_a()
+  describe "Test called function for mock functions" do
+    test "should return true when mock function was called" do
+      Mocky.Exp.some_func_a()
 
-    assert called(@module, :func_a)
-  end
+      assert called(@module, :func_a)
+    end
 
-  test "should return true when mock function was called with correct args" do
-    Mocky.Exp.some_func_a(1)
+    test "should return true when mock function was called with correct args" do
+      Mocky.Exp.some_func_a(1)
 
-    assert called(@module, :func_a, [1])
-  end
+      assert called(@module, :func_a, [1])
+    end
 
-  test "should return false when mock function was called with wrong args" do
-    Mocky.Exp.some_func_a(1)
+    test "should return false when mock function was called with wrong args" do
+      Mocky.Exp.some_func_a(1)
 
-    refute called(@module, :func_a, [2])
-  end
+      refute called(@module, :func_a, [2])
+    end
 
-  test "should return true when mock function was called without inform the args" do
-    Mocky.Exp.some_func_a(1)
+    test "should return true when mock function was called without inform the args" do
+      Mocky.Exp.some_func_a(1)
 
-    assert called(@module, :func_a)
+      assert called(@module, :func_a)
+    end
   end
 end
 
