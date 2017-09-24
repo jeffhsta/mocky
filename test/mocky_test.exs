@@ -48,28 +48,28 @@ defmodule MockyTest do
       refute Mocky.Test.OriginalModule.some_function() |> is_nil
       assert_raise UndefinedFunctionError, fn -> Mocky.Test.FakeModule.some_function() end
     end
-  end
 
-  test "should create function automatically based on original module" do
-    assert Mocky.FakeModule.an_existing_function() ==
-      Mocky.RealModule.an_existing_function()
-  end
+    test "should create function automatically based on original module" do
+      assert Mocky.FakeModule.an_existing_function() ==
+        Mocky.RealModule.an_existing_function()
+    end
 
-  test "should create function with one argument automatically based on original module" do
-    refute Mocky.RealModule.an_existing_function(1)  |> is_nil
-    Mocky.FakeModule.an_existing_function(1)
-  end
+    test "should create function with one argument automatically based on original module" do
+      refute Mocky.RealModule.an_existing_function(1)  |> is_nil
+      Mocky.FakeModule.an_existing_function(1)
+    end
 
-  test "should create function with any arguments dynamically" do
-    refute Mocky.RealModule.an_existing_function(1)  |> is_nil
-    refute Mocky.RealModule.an_existing_function(1, 2)  |> is_nil
-    refute Mocky.RealModule.an_existing_function(1, 2, 3)  |> is_nil
-    refute Mocky.RealModule.an_existing_function(1, 2, 3, 4)  |> is_nil
+    test "should create function with any arguments dynamically" do
+      refute Mocky.RealModule.an_existing_function(1)  |> is_nil
+      refute Mocky.RealModule.an_existing_function(1, 2)  |> is_nil
+      refute Mocky.RealModule.an_existing_function(1, 2, 3)  |> is_nil
+      refute Mocky.RealModule.an_existing_function(1, 2, 3, 4)  |> is_nil
 
-    Mocky.FakeModule.an_existing_function(1)
-    Mocky.FakeModule.an_existing_function(1, 2)
-    Mocky.FakeModule.an_existing_function(1, 2, 3)
-    Mocky.FakeModule.an_existing_function(1, 2, 3, 4)
+      Mocky.FakeModule.an_existing_function(1)
+      Mocky.FakeModule.an_existing_function(1, 2)
+      Mocky.FakeModule.an_existing_function(1, 2, 3)
+      Mocky.FakeModule.an_existing_function(1, 2, 3, 4)
+    end
   end
 end
 
