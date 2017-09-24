@@ -54,6 +54,11 @@ defmodule MockyTest do
     assert Mocky.FakeModule.an_existing_function() ==
       Mocky.RealModule.an_existing_function()
   end
+
+  test "should create function with one argument automatically based on original module" do
+    refute Mocky.RealModule.an_existing_function(1)  |> is_nil
+    Mocky.FakeModule.an_existing_function(1)
+  end
 end
 
 # defmodule MyHTTP do

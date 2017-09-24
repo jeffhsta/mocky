@@ -14,14 +14,24 @@ defmodule Mocky.Module do
     "Elixir.#{module_data |> Enum.join(".")}" |> String.to_atom
   end
 
-  def generate_macro(mock_module, {function_name, num_args}) do
+  def generate_macro(mock_module, {function_name, 0}) do
     quote do
       def unquote(:"#{function_name}")() do
         module = unquote(mock_module)
         function_name = unquote(function_name)
-        num_args = unquote(num_args)
 
-        Mocky.StateManager.update_call_counter(module, function_name, num_args)
+        Mocky.StateManager.update_call_counter(module, function_name, 0)
+      end
+    end
+  end
+
+  def generate_macro(mock_module, {function_name, 1}) do
+    quote do
+      def unquote(:"#{function_name}")(arg1) do
+        module = unquote(mock_module)
+        function_name = unquote(function_name)
+
+        Mocky.StateManager.update_call_counter(module, function_name, 1)
       end
     end
   end
